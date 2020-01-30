@@ -1,19 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors');
+const monk = require('monk');
 
 const app = express(); 
 
+const db = monk('localhost/nweeter');
+const nweets = db.get('nweets');
+
 app.use(cors());
 app.use(bodyParser.json());
-
-
 
 
 app.get('/', (req, res) => {
   res.json({
       message: 'Nweet! 🦄'
   });
+});
+
+app.get('/nweets', (req, res) => {
+  nweets
+   .find()
+   .then(nweets => {
+     res.json(nweets);
+   });
 });
 
 function isValidNweet(nweet) {
@@ -26,10 +36,15 @@ app.post('/nweets', (req, res) => {
     // insert into db..
     const nweet = {
       name: req.body.name.toString(),
-      content: req.body.content.toString()
+      content: req.body.content.toString(),
+      created: new Date()
     };
 
-    console.log(nweet);
+    nweets
+      .insert(nweet)
+      .then(createdNweet => {
+        res.json(createdNweet);
+      });
   } else {
     res.status(422);
     res.json({
@@ -42,4 +57,3 @@ app.listen(5000, () => {
     console.log('Listening on http://localhost:5000');
 });
 
-//44:39 on video

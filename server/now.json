@@ -12,5 +12,8 @@
       "src": "/.*",
       "dest": "index.js"
     }
-  ]
+  ],
+  "env": {
+    "MONGO_URI": "@nweets-db"
+  }
 }

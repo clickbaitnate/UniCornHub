@@ -32,7 +32,9 @@ form.addEventListener('submit', (event) => {
     }).then(response => response.json())
       .then(createdNweet => {
           form.reset();
-          form.style.display = '';
+          setTimeout(() => {
+            form.style.display = '';
+          }, 30000);
           listAllNweets();
      });
 });

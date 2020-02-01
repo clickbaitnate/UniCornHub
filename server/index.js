@@ -2,14 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors');
 const monk = require('monk');
+const rateLimit = require("express-rate-limit");
 
 const app = express(); 
 
-const db = monk('localhost/nweeter');
+const db = monk(process.env.MONGO_URI || 'localhost/nweeter');
 const nweets = db.get('nweets');
 
 app.use(cors());
 app.use(bodyParser.json());
+
 
 
 app.get('/', (req, res) => {
@@ -30,6 +32,11 @@ function isValidNweet(nweet) {
   return nweet.name && nweet.name.toString().trim() !== '' &&
     nweet.content && nweet.content.toString().trim() !== '';
 }
+
+app.use(rateLimit({
+  windowMs: 60 * 1000,
+  max: 1
+}));
 
 app.post('/nweets', (req, res) => {
   if (isValidNweet(req.body)) {

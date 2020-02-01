@@ -1,10 +1,19 @@
+body {
+    background-color: #264653;
+}
+
 .title {
     text-align: center;
+    background-color: #e76f51;
+    margin-left: 25%;
+    margin-right: 25%;
 }
 
 .uni-form, .loading {
     width: 50%;
     margin: 0 auto;
+    background-color: #2a9daf;
+
 }
 
 .loading {
@@ -14,4 +23,8 @@
 .nweets {
     width: 80%;
     margin-left: 10%;
+    border-style: dotted;
+    border-color: black;
+    border-width: 3px;
+    background-color: #e9c46a;
 }
